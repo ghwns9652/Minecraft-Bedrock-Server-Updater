@@ -36,15 +36,15 @@ It automatically downloads server and run in tmux session
 ```
 python3 ./updater/mcserver_autoupdater.py
 ```
-### 2-2) If you want to use your running server
+### 2-2) If you want to use your previous server
 1. Stop your server
-2. Put your all bedrock server files (worlds, server.properties, etc...) to /running directory
+2. Put your previous server files (worlds, server.properties, etc...) to /running directory
 3. Run updater
 ```
 python3 ./updater/mcserver_autoupdater.py
 ```
 
-### 2-3) If your server already runs in /running directory already
+### 2-3) If your server already runs in /running directory
 Just like in step 2-1) run updater/mcserver_autoupdater.py script
 It automatically downloads server, backup your data, install new server and load your previous worlds&server setting
 ```
