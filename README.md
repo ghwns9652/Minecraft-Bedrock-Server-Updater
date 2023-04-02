@@ -9,7 +9,7 @@ Automatically detect new version of minecraft bedrock server and update your ser
 5. Restore your backup server's worlds data and setting data
 6. Run updated version of server (in tmux session)
 
-## Prerequsite
+## Prerequisite
 Works in Debian like OS (Debian, Ubuntu, ...)
 ```
 sudo apt update
