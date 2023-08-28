@@ -11,12 +11,11 @@ Automatically detect new version of minecraft bedrock server and update your ser
 
 ## Prerequisite
 Works in Debian like OS (Debian, Ubuntu, ...)
-```
-sudo apt update
-sudo apt install python3
-sudo apt install firefox
-sudo apt install tmux
-pip3 install selenium
+```sh
+sudo apt update # Update your repository list
+sudo apt install python3 # Make sure PY3 is installed
+sudo apt install tmux # Tmux for split processing
+pip3 install bs4 # BeautifulSoup for page parsing
 ```
 
 ## How to run
