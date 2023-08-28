@@ -88,5 +88,3 @@ else:
         print(msg)
         file.write(msg)
 
-browser.quit()
-
