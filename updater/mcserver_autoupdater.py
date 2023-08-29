@@ -1,8 +1,7 @@
 # Automatically compare installed version of Minecrafter server to latest version 
-
-from selenium import webdriver
-from selenium.webdriver.firefox.options import Options
-from selenium.webdriver.common.by import By
+import requests
+import logging
+from bs4 import BeautifulSoup
 import subprocess
 import os
 import sys
@@ -14,19 +13,21 @@ import datetime
 # Do not write '/' at the end of the path!
 minecraft_directory = '/path/to/updater'
 
-url = 'https://www.minecraft.net/en-us/download/server/bedrock'
+URL = "https://www.minecraft.net/en-us/download/server/bedrock/"
+HEADERS = {"User-Agent": "Mozilla/5.0 (X11; CrOS x86_64 12871.102.0) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/81.0.4044.141 Safari/537.36"}
 
-options = Options()
-options.add_argument('-headless')
+try:
+ page = requests.get(URL, headers=HEADERS, timeout=5)
+except requests.exceptions.Timeout:
+  logging.error("timeout raised, recovering")
 
-browser = webdriver.Firefox(options=options)
-browser.get(url)
+soup = BeautifulSoup(page.content, "html.parser")
 
-# Find the element with the specified aria-label
-element = browser.find_element(By.XPATH, '//*[@aria-label="Download Minecraft Dedicated Server software for Ubuntu (Linux)"]')
+a_tag_res = []
+for a_tags in soup.findAll('a', attrs={"aria-label":"Download Minecraft Dedicated Server software for Ubuntu (Linux)"}):
+  a_tag_res.append(a_tags['href'])
 
-# Extract the href attribute
-download_link = element.get_attribute('href')
+download_link=a_tag_res[0]
 
 print("Download link:", download_link)
 
@@ -86,6 +87,4 @@ else:
         msg = timenow+" minecraft server is already newest version. nothing to update.\n"
         print(msg)
         file.write(msg)
-
-browser.quit()
 
