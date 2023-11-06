@@ -11,7 +11,7 @@ import datetime
 # Example : 
 #   minecraft_directory = '/home/ubuntu/Minecraft-Bedrock-Server-Updater'
 # Do not write '/' at the end of the path!
-minecraft_directory = '/path/to/updater'
+minecraft_directory = os.path.dirname(os.path.dirname(os.path.abspath(__file__)))
 
 URL = "https://www.minecraft.net/en-us/download/server/bedrock/"
 HEADERS = {"User-Agent": "Mozilla/5.0 (X11; CrOS x86_64 12871.102.0) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/81.0.4044.141 Safari/537.36"}

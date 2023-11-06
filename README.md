@@ -17,38 +17,28 @@ Install packages for updater
 ```
 
 ## How to run
-### 1. Specify updater path (Must be done!)
-you must specify your Minecraft-Bedrock-Server-Updater absolute path to "updater/mcserver_autoupdater.py"
-```sh
-# Write down your absolute path of Minecraft Bedrock Server Updater
-# Example : 
-#   minecraft_directory = '/home/ubuntu/Minecraft-Bedrock-Server-Updater'
-# Do not write '/' at the end of the path!
-minecraft_directory = '/path/to/updater'
-```
-### 2. Run updater
-### 2-1) If you want to start new server
+### 1. Run updater
+### 1-1) If you want to start new server
 Just run updater/mcserver_autoupdater.py script
 It automatically downloads server and run in tmux session
 ```sh
 python3 ./updater/mcserver_autoupdater.py
 ```
-### 2-2) If you want to use your previous server
+### 1-2) If you want to use your previous server
 1. Stop your server
 2. Put your previous server files (worlds, server.properties, etc...) to /running directory
 3. Run updater
 ```sh
 python3 ./updater/mcserver_autoupdater.py
 ```
-
-### 2-3) If your server already runs in /running directory
+### 1-3) If your server already runs in /running directory
 Just like in step 2-1) run updater/mcserver_autoupdater.py script
 It automatically downloads server, backup your data, install new server and load your previous worlds&server setting
 ```sh
 python3 ./updater/mcserver_autoupdater.py
 ```
 
-### 3. Join your server and play!
+### 2. Join your server and play!
 
 ### Extra Step) Register updater to cron for regular update
 You can register mcserver_autoupdater.py for regular update
