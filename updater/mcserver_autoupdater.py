@@ -14,22 +14,29 @@ import datetime
 minecraft_directory = os.path.dirname(os.path.dirname(os.path.abspath(__file__)))
 
 URL = "https://www.minecraft.net/en-us/download/server/bedrock/"
+BACKUP_URL = "https://raw.githubusercontent.com/ghwns9652/Minecraft-Bedrock-Server-Updater/main/current_download_link.txt"
 HEADERS = {"User-Agent": "Mozilla/5.0 (X11; CrOS x86_64 12871.102.0) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/81.0.4044.141 Safari/537.36"}
 
 try:
- page = requests.get(URL, headers=HEADERS, timeout=5)
+    page = requests.get(URL, headers=HEADERS, timeout=5)
+
+    soup = BeautifulSoup(page.content, "html.parser")
+
+    a_tag_res = []
+    for a_tags in soup.findAll('a', attrs={"aria-label":"Download Minecraft Dedicated Server software for Ubuntu (Linux)"}):
+      a_tag_res.append(a_tags['href'])
+
+    download_link=a_tag_res[0]
+
 except requests.exceptions.Timeout:
-  logging.error("timeout raised, recovering")
+    logging.error("timeout raised, recovering")
+    page = requests.get(BACKUP_URL, headers=HEADERS, timeout=5)
 
-soup = BeautifulSoup(page.content, "html.parser")
-
-a_tag_res = []
-for a_tags in soup.findAll('a', attrs={"aria-label":"Download Minecraft Dedicated Server software for Ubuntu (Linux)"}):
-  a_tag_res.append(a_tags['href'])
-
-download_link=a_tag_res[0]
+    download_link=page.text[:-1]
 
 print("Download link:", download_link)
+
+
 
 download_link_file = minecraft_directory+'/updater/download_link.txt'
 if not os.path.isfile(download_link_file):
@@ -41,10 +48,12 @@ with open(download_link_file, 'r') as file:
 
 logfile = minecraft_directory+'/updater/update.log'
 
+
+
 running_files = os.listdir(minecraft_directory+'/running')
 if len(running_files) == 0:
     # Download server binary
-    subprocess.run(['wget', '-P', minecraft_directory+'/updater', download_link])
+    subprocess.run(['wget', '-P', minecraft_directory+'/updater', '-c', download_link])
     # Save the download link to a text file
     with open(download_link_file, 'w') as file:
         file.write(download_link)
@@ -61,7 +70,7 @@ if len(running_files) == 0:
 
 elif download_link != prev_download_link:
     # Download server binary
-    subprocess.run(['wget', '-P', minecraft_directory+'/updater', download_link])
+    subprocess.run(['wget', '-P', minecraft_directory+'/updater', '-c', download_link])
     # Save the download link to a text file
     with open(download_link_file, 'w') as file:
         file.write(download_link)
