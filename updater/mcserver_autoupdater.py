@@ -14,7 +14,7 @@ import datetime
 minecraft_directory = os.path.dirname(os.path.dirname(os.path.abspath(__file__)))
 
 URL = "https://www.minecraft.net/en-us/download/server/bedrock/"
-BACKUP_URL = "https://raw.githubusercontent.com/ghwns9652/Minecraft-Bedrock-Server-Updater/main/current_download_link.txt"
+BACKUP_URL = "https://raw.githubusercontent.com/ghwns9652/Minecraft-Bedrock-Server-Updater/main/backup_download_link.txt"
 HEADERS = {"User-Agent": "Mozilla/5.0 (X11; CrOS x86_64 12871.102.0) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/81.0.4044.141 Safari/537.36"}
 
 try:
