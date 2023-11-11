@@ -32,7 +32,7 @@ except requests.exceptions.Timeout:
     logging.error("timeout raised, recovering")
     page = requests.get(BACKUP_URL, headers=HEADERS, timeout=5)
 
-    download_link=page.text[:-1]
+    download_link=page.text
 
 print("Download link:", download_link)
 
