@@ -53,7 +53,7 @@ logfile = minecraft_directory+'/updater/update.log'
 running_files = os.listdir(minecraft_directory+'/running')
 if len(running_files) == 0:
     # Download server binary
-    subprocess.run(['wget', '-P', minecraft_directory+'/updater', '-c', download_link])
+    subprocess.run(['wget', '--user-agent', HEADERS['User-Agent'], '-P', minecraft_directory+'/updater', '-c', download_link])
     # Save the download link to a text file
     with open(download_link_file, 'w') as file:
         file.write(download_link)
@@ -70,7 +70,7 @@ if len(running_files) == 0:
 
 elif download_link != prev_download_link:
     # Download server binary
-    subprocess.run(['wget', '-P', minecraft_directory+'/updater', '-c', download_link])
+    subprocess.run(['wget', '--user-agent', HEADERS['User-Agent'], '-P', minecraft_directory+'/updater', '-c', download_link])
     # Save the download link to a text file
     with open(download_link_file, 'w') as file:
         file.write(download_link)
