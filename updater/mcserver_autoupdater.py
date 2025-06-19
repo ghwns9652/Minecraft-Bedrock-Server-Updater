@@ -1,7 +1,6 @@
 # Automatically compare installed version of Minecrafter server to latest version 
 import requests
 import logging
-from bs4 import BeautifulSoup
 import subprocess
 import os
 import sys
@@ -15,24 +14,30 @@ minecraft_directory = os.path.dirname(os.path.dirname(os.path.abspath(__file__))
 
 URL = "https://www.minecraft.net/en-us/download/server/bedrock/"
 BACKUP_URL = "https://raw.githubusercontent.com/ghwns9652/Minecraft-Bedrock-Server-Updater/main/backup_download_link.txt"
+DOWNLOAD_LINKS_URL = "https://net-secondary.web.minecraft-services.net/api/v1.0/download/links"
 HEADERS = {"User-Agent": "Mozilla/5.0 (X11; CrOS x86_64 12871.102.0) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/81.0.4044.141 Safari/537.36"}
 
 try:
-    page = requests.get(URL, headers=HEADERS, timeout=5)
-
-    soup = BeautifulSoup(page.content, "html.parser")
-
-    a_tag_res = []
-    for a_tags in soup.findAll('a', attrs={"aria-label":"Download Minecraft Dedicated Server software for Ubuntu (Linux)"}):
-      a_tag_res.append(a_tags['href'])
-
-    download_link=a_tag_res[0]
+    response = requests.get(DOWNLOAD_LINKS_URL, headers=HEADERS, timeout=5)
+    response_json = response.json()
+    
+    all_links = response_json['result']['links']
+    download_link = None
+    
+    # Find the serverBedrockLinux download link
+    for link in all_links:
+        if link['downloadType'] == 'serverBedrockLinux':
+            download_link = link['downloadUrl']
+            break
+    
+    if download_link is None:
+        raise Exception("serverBedrockLinux download link not found")
 
 except requests.exceptions.Timeout:
     logging.error("timeout raised, recovering")
-    page = requests.get(BACKUP_URL, headers=HEADERS, timeout=5)
+    response = requests.get(BACKUP_URL, headers=HEADERS, timeout=5)
 
-    download_link=page.text
+    download_link=response.text
 
 print("Download link:", download_link)
 
